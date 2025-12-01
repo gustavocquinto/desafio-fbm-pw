@@ -135,4 +135,4 @@ que já inclui browsers + dependencies, e enviar para um repositório de imagens
 
 ---
 
-### Thats all folks!
+### Thats all folks! ![Visitors](https://visitor-badge.laobi.icu/badge?page_id=gustavocquinto.desafio-fbm-pw)
