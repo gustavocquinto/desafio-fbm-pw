@@ -3,7 +3,7 @@ import { faker } from "@faker-js/faker/locale/pt_BR";
 
 export class EmployeeFactory{
 
-    employee(firstName: string, middleName: string, lastName: string){
+    employee(firstName: string, middleName: string, lastName: string, id?: number){
         return new Employee(firstName, middleName, lastName);
     }
 

@@ -7,11 +7,11 @@ export class Employee{
     middleName: string;
     lastName: string;
     id: number;
-    constructor(firstName: string, middleName: string, lastName: string){
+    constructor(firstName: string, middleName: string, lastName: string, id: number = randomInt(99999999)){
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName
-        this.id = randomInt(99999999)
+        this.id = id;
     }
 
 }
