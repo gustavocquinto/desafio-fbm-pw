@@ -56,23 +56,51 @@ test.describe('PIM', () => {
         const pimPage = new PimPage(page);
         const toastPage = new Toast(page);
 
-        await pimPage.accessEmployeeList();
+        for (let i = 0; i < 2; i++){
+            //Acesso listagem  de Employee
+            await pimPage.accessEmployeeList();
 
-        for (let i = 0; i < 1; i++){
-             const deletedEmployeeId = await pimPage.deleteEmployee();
+            //Deleto um usuário e salvo seu ID para consulta posterior via filtros
+            const deletedEmployeeId = await pimPage.deleteEmployee();
 
-             const successToast = await toastPage.getSuccessToast();
-             await expect(successToast.message).toContain('Successfully Deleted')
+            //Consulto toast de sucesso
+            const successToast = await toastPage.getSuccessToast();
+            await expect(successToast.message).toContain('Successfully Deleted')
 
-             await page.waitForSelector('.oxd-toast', { state: 'detached' });
-             await pimPage.findEmployeeById(deletedEmployeeId);
+            //Busco Employee utilizando filtro por Employee ID
+            await page.waitForSelector('.oxd-toast', { state: 'detached' });
+            await pimPage.findEmployeeById(deletedEmployeeId);
 
-             const infoToast = await toastPage.getInfoToast()
-             await expect(infoToast.message).toContain('No Records Found')
-             await expect((await pimPage.tableRows())).toHaveCount(0)
-             await page.waitForSelector('.oxd-toast', { state: 'detached' });
+            //Confirmo toast de registro não encontrado (pois foi deletado)
+            const infoToast = await toastPage.getInfoToast()
+            await expect(infoToast.message).toContain('No Records Found')
+
+            //Garanto que não existe elementos na lista
+            await expect((await pimPage.tableRows())).toHaveCount(0)
+            await page.waitForSelector('.oxd-toast', { state: 'detached' });
              
         }
+    })
+
+    test('CT-PIM-003 - Editar um funcionário', async({page}) => {
+        const pimPage = new PimPage(page);
+        const toasts = new Toast(page);
+
+        //Crio um novo objeto de funcionário
+        const employee = new EmployeeFactory().employee("Usuario edit", 'test', 'Editado')
+
+        //Edito e salvo um funcionario aplicando os dados recém gerados
+        await pimPage.editEmployee(employee)
+
+        //Confirmo que ha feedback de sucesso para o usuário
+        const successToast = await toasts.getSuccessToast();
+        await expect(successToast.message).toContain('Successfully Updated')
+
+        //Atualizo a pagina atual de edição, para garantir que os dados persistem após salvar
+        await page.reload();
+
+        const savedEditionSuccessFully = await pimPage.isEmployeeEditedSuccesfully(employee)
+        await expect(savedEditionSuccessFully).toBeTruthy();
     })
 
 });
