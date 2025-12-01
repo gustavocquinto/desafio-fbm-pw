@@ -1,10 +1,10 @@
 import { test as base } from '@playwright/test';
-import { LoginPage } from '../pages/access_page';
+import { AccessPage } from '../pages/access_page';
 
 
 export const baseTest = base.extend<{forEachTest: void}>({
     forEachTest: [async ({page}, use) => {
-        const loginPage = new LoginPage(page);
+        const loginPage = new AccessPage(page);
         await loginPage.accessPage();
         await use();
         
