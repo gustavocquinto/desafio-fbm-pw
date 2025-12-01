@@ -44,9 +44,12 @@ test.describe('Login', () => {
     });
 
     test('CT-LOGOUT-001 - Logout', async ({page, adminLogin}) => {
-        const loginPage = new AccessPage(page);
+        const accessPage = new AccessPage(page);
 
+        await accessPage.logout();
 
+        await expect(page).toHaveURL(/.*auth\/login/);
+        await expect(accessPage.isLoginPage()).toBeTruthy()
     })
 
 });
