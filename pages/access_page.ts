@@ -35,4 +35,13 @@ export class AccessPage{
         
     }
 
+    async logout(): Promise<void>{
+        await this.page.locator('.oxd-userdropdown-name').click()
+        await this.page.locator('//*[contains(text(), "Logout")]').click()
+    }
+
+    async isLoginPage(): Promise<Boolean>{
+        return this.page.getByRole('heading', {level: 5, name: 'Login'}).isVisible()
+    }
+
 }
