@@ -37,6 +37,8 @@ test.describe('Login', () => {
 
         await loginPage.login(process.env.TEST_USER_LOGIN!, process.env.TEST_USER_PASSWORD!);
 
+        await expect(await loginPage.isDashboardPage()).toBeTruthy();
+
         await expect(page).toHaveURL(/.*dashboard\/index/);
 
     });

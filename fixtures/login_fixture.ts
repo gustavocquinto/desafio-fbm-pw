@@ -9,7 +9,7 @@ type LoginFixtures = {
 export const test = base.extend<LoginFixtures>({
     adminLogin: async ({page}, use) => {
        const loginPage = new LoginPage(page);
-       await loginPage.logar(process.env.TEST_USER_LOGIN!, process.env.TEST_USER_PASSWORD!)
+       await loginPage.login(process.env.TEST_USER_LOGIN!, process.env.TEST_USER_PASSWORD!)
        await use();
     },
 })

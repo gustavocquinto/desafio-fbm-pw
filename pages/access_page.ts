@@ -24,4 +24,15 @@ export class LoginPage{
         await this.page.getByRole('button', {name: 'Login'}).click()
     }
 
+    async isDashboardPage(): Promise<Boolean> {
+
+        const h6Element = await this.page.getByRole("heading", {level: 6, name: "Dashboard"})
+
+        if (await h6Element.innerHTML() == 'Dashboard'){
+            return true
+        }
+        return false
+        
+    }
+
 }
