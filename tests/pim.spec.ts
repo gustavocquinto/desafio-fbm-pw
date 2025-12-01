@@ -12,15 +12,28 @@ test.describe('PIM', () => {
     })
 
     test('CT-PIM-001 - Criar colaborador', async ({page}) => {
-        const pimPage = new PimPage(page)
 
-        const employee = employeeFactory.employee("Gustavo", "Carneiro", "Quinto")
+        for(let i = 0; i < 3; i++){
+            const pimPage = new PimPage(page)
 
-        await pimPage.addEmployee(employee)
+            const employee = employeeFactory.employee("Funcionario", "teste", i.toString())
 
-        await expect(page.getByText('Success', {exact: true})).toBeVisible();
+            await pimPage.addEmployee(employee)
 
-        await expect(page.getByText('Successfully Saved', {exact: true})).toBeVisible();
+            // Mensagens de Sucesso
+            await expect(page.getByText('Success', {exact: true})).toBeVisible();
+            await expect(page.getByText('Successfully Saved', {exact: true})).toBeVisible();
 
+            // Valores preenchidos corretamente no detalhamento de Employee recém cadastrado
+            await expect(pimPage.firstNameInput).toHaveValue(employee.firstName);
+            await expect(pimPage.middleNameInput).toHaveValue(employee.middleName);
+            await expect(pimPage.lastNameInput).toHaveValue(employee.lastName);
+        }
     });
+
+    test('CT-PIM-002 - Validar lista de funcionários', async ({page}) => {
+        
+    })
+
+
 });
